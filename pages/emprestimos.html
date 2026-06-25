@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empréstimos — Acervo Tech Digital</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">📚 AcervoTech</div>
+            <div class="menu">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="livros.html">Livros</a>
+                <a href="usuarios.html">Usuários</a>
+                <a href="emprestimos.html" class="ativo">Empréstimos</a>
+                <a href="devolucoes.html">Devoluções</a>
+                <a href="consultar.html">Consultar</a>
+                <a href="relatorios.html">Relatórios</a>
+            </div>
+            <div class="usuario">
+                <span id="nomeUsuario"></span>
+                <button onclick="logout()"
+                    style="background:#d32f2f; color:white; border:none;
+                           padding:5px 10px; border-radius:4px; cursor:pointer;">
+                    Sair
+                </button>
+            </div>
+        </nav>
+
+        <h2>Registrar Empréstimo</h2>
+        <button onclick="abrirFormEmprestimo()" class="btn-primary"
+                style="width:auto; margin-bottom:16px;">
+            + Novo Empréstimo
+        </button>
+
+        <div class="tabela-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Livro</th>
+                        <th>Usuário</th>
+                        <th>Data Empréstimo</th>
+                        <th>Previsão Devolução</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaEmprestimos"></tbody>
+            </table>
+        </div>
+
+        <!-- Formulário de Novo Empréstimo -->
+        <div id="formEmprestimoContainer" style="display:none; margin-top:20px;">
+            <div class="form-padrao">
+                <h3>Novo Empréstimo</h3>
+                <form id="formEmprestimo">
+                    <div class="campo">
+                        <label for="idLivro">Livro *</label>
+                        <select id="idLivro" required>
+                            <option value="">Selecione o livro</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="idUsuario">Usuário *</label>
+                        <select id="idUsuario" required>
+                            <option value="">Selecione o usuário</option>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="dataDevolucao">Data prevista de devolução *</label>
+                        <input type="date" id="dataDevolucao" required>
+                    </div>
+                    <button type="submit">Registrar</button>
+                    <button type="button" onclick="fecharFormEmprestimo()"
+                            style="background:#999; margin-top:10px; color:white;
+                                   border:none; padding:10px; border-radius:4px; cursor:pointer;">
+                        Cancelar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/emprestimos.js"></script>
+</body>
+</html>

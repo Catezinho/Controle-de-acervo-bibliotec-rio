@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livros — Acervo Tech Digital</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">📚 AcervoTech</div>
+            <div class="menu">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="livros.html" class="ativo">Livros</a>
+                <a href="usuarios.html">Usuários</a>
+                <a href="emprestimos.html">Empréstimos</a>
+                <a href="devolucoes.html">Devoluções</a>
+                <a href="consultar.html">Consultar</a>
+                <a href="relatorios.html">Relatórios</a>
+            </div>
+            <div class="usuario">
+                <span id="nomeUsuario"></span>
+                <button onclick="logout()"
+                    style="background:#d32f2f; color:white; border:none;
+                           padding:5px 10px; border-radius:4px; cursor:pointer;">
+                    Sair
+                </button>
+            </div>
+        </nav>
+
+        <h2>Gerenciar Livros</h2>
+        <button onclick="abrirFormLivro()" class="btn-primary"
+                style="width:auto; margin-bottom:16px;">
+            + Novo Livro
+        </button>
+
+        <div class="tabela-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>ISBN</th>
+                        <th>Gênero</th>
+                        <th>Exemplares</th>
+                        <th>Disponíveis</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaLivrosBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Formulário de Cadastro / Edição de Livro -->
+        <div id="formLivroContainer" style="display:none; margin-top:20px;">
+            <div class="form-padrao">
+                <h3 id="formLivroTitulo">Cadastrar Livro</h3>
+                <form id="formLivro">
+                    <!-- Campo oculto: preenchido apenas em modo de edição -->
+                    <input type="hidden" id="livroId">
+
+                    <div class="campo">
+                        <label for="titulo">Título *</label>
+                        <input type="text" id="titulo" required>
+                    </div>
+                    <div class="campo">
+                        <label for="autor">Autor *</label>
+                        <input type="text" id="autor" required>
+                    </div>
+                    <div class="campo">
+                        <label for="isbn">ISBN</label>
+                        <!-- CORREÇÃO: Campo ISBN adicionado para alinhar com o modelo do back-end -->
+                        <input type="text" id="isbn" placeholder="Ex: 978-85-01-00001-0">
+                    </div>
+                    <div class="campo">
+                        <label for="genero">Gênero / Categoria</label>
+                        <!--
+                            CORREÇÃO: O HTML original usava id="categoria" mas o JS mapeava
+                            esse valor para o campo 'genero' ao enviar para a API.
+                            O id foi padronizado para 'genero' em ambos os arquivos.
+                        -->
+                        <input type="text" id="genero" placeholder="Ex: Literatura, Técnico, Fantasia">
+                    </div>
+                    <div class="campo">
+                        <label for="exemplares">Nº de Exemplares *</label>
+                        <input type="number" id="exemplares" min="1" value="1" required>
+                    </div>
+
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="fecharFormLivro()"
+                            style="background:#999; margin-top:10px; color:white;
+                                   border:none; padding:10px; border-radius:4px; cursor:pointer;">
+                        Cancelar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--
+        ATENÇÃO À ORDEM DOS SCRIPTS:
+        auth.js deve ser carregado PRIMEIRO, pois define verificarAutenticacao(),
+        exibirUsuarioNoMenu() e logout(), que são chamados por livros.js.
+    -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/livros.js"></script>
+</body>
+</html>

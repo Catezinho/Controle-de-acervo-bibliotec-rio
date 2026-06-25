@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Acervo Tech Digital</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">📚 AcervoTech</div>
+            <div class="menu">
+                <a href="dashboard.html" class="ativo">Dashboard</a>
+                <a href="livros.html">Livros</a>
+                <a href="usuarios.html">Usuários</a>
+                <a href="emprestimos.html">Empréstimos</a>
+                <a href="devolucoes.html">Devoluções</a>
+                <a href="consultar.html">Consultar</a>
+                <a href="relatorios.html">Relatórios</a>
+            </div>
+            <div class="usuario">
+                <span id="nomeUsuario"></span>
+                <button onclick="logout()"
+                    style="background:#d32f2f; color:white; border:none;
+                           padding:5px 10px; border-radius:4px; cursor:pointer;">
+                    Sair
+                </button>
+            </div>
+        </nav>
+
+        <h2>Dashboard</h2>
+
+        <div class="card-grid">
+            <div class="card primary">
+                <h3>Total de Livros</h3>
+                <div class="numero" id="totalLivros">—</div>
+            </div>
+            <div class="card success">
+                <h3>Usuários Ativos</h3>
+                <div class="numero" id="totalUsuarios">—</div>
+            </div>
+            <div class="card warning">
+                <h3>Empréstimos Ativos</h3>
+                <div class="numero" id="totalEmprestimos">—</div>
+            </div>
+            <div class="card danger">
+                <h3>Livros Indisponíveis</h3>
+                <div class="numero" id="totalIndisponiveis">—</div>
+            </div>
+        </div>
+
+        <div id="mensagemBoas" style="margin-top:20px; padding:16px;
+             background:white; border-radius:12px; font-size:15px; color:#333;"></div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const usuario = verificarAutenticacao();
+            if (!usuario) return;   // verificarAutenticacao() já redireciona se não logado
+
+            exibirUsuarioNoMenu();
+
+            // Exibe saudação personalizada com o nome do administrador logado
+            document.getElementById('mensagemBoas').textContent =
+                `Bem-vindo(a), ${usuario.nome}! Aqui está o resumo atual do acervo.`;
+
+            // Busca os totais reais na API
+            fetch('http://127.0.0.1:8000/api/dashboard')
+                .then(res => {
+                    if (!res.ok) throw new Error('Falha ao buscar estatísticas.');
+                    return res.json();
+                })
+                .then(dados => {
+                    document.getElementById('totalLivros').textContent       = dados.total_livros;
+                    document.getElementById('totalUsuarios').textContent     = dados.total_usuarios;
+                    document.getElementById('totalEmprestimos').textContent  = dados.total_emprestimos;
+                    document.getElementById('totalIndisponiveis').textContent = dados.total_indisponiveis;
+                })
+                .catch(err => {
+                    document.getElementById('mensagemBoas').textContent =
+                        `⚠️ Não foi possível carregar as estatísticas: ${err.message}`;
+                });
+        });
+    </script>
+</body>
+</html>

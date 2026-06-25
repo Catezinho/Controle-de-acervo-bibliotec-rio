@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios — Acervo Tech Digital</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo">📚 AcervoTech</div>
+            <div class="menu">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="livros.html">Livros</a>
+                <a href="usuarios.html">Usuários</a>
+                <a href="emprestimos.html">Empréstimos</a>
+                <a href="devolucoes.html">Devoluções</a>
+                <a href="consultar.html">Consultar</a>
+                <a href="relatorios.html" class="ativo">Relatórios</a>
+            </div>
+            <div class="usuario">
+                <span id="nomeUsuario"></span>
+                <button onclick="logout()"
+                    style="background:#d32f2f; color:white; border:none;
+                           padding:5px 10px; border-radius:4px; cursor:pointer;">
+                    Sair
+                </button>
+            </div>
+        </nav>
+
+        <h2>Relatórios</h2>
+
+        <!-- Cards de resumo (alimentados pela API) -->
+        <div class="card-grid">
+            <div class="card primary"><h3>Total de Livros</h3><div class="numero" id="totalLivrosRel">—</div></div>
+            <div class="card success"><h3>Usuários Ativos</h3><div class="numero" id="totalUsuariosRel">—</div></div>
+            <div class="card warning"><h3>Empréstimos Ativos</h3><div class="numero" id="totalEmprestimosRel">—</div></div>
+            <div class="card danger"><h3>Indisponíveis</h3><div class="numero" id="totalIndisponiveisRel">—</div></div>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin:20px 0;">
+            <button onclick="exportarCSV()" class="btn-primary" style="width:auto;">
+                📄 Exportar CSV
+            </button>
+            <button onclick="relatorioPendencias()" class="btn-primary"
+                    style="width:auto; background:#f9a825;">
+                ⚠️ Pendências
+            </button>
+            <button onclick="relatorioGeral()" class="btn-primary"
+                    style="width:auto; background:#2e7d32;">
+                📋 Relatório Geral
+            </button>
+        </div>
+
+        <div id="areaRelatorio"
+             style="background:white; padding:20px; border-radius:16px; margin-top:20px;">
+            Clique em um botão para gerar o relatório.
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Cache dos dados carregados da API
+        let dadosLivros      = [];
+        let dadosEmprestimos = [];
+        let dadosUsuarios    = [];
+
+
+        function carregarDados() {
+            Promise.all([
+                fetch('http://127.0.0.1:8000/api/livros').then(r => r.json()),
+                fetch('http://127.0.0.1:8000/api/emprestimos').then(r => r.json()),
+                fetch('http://127.0.0.1:8000/api/usuarios').then(r => r.json()),
+                fetch('http://127.0.0.1:8000/api/dashboard').then(r => r.json())
+            ])
+            .then(([livros, emprestimos, usuarios, stats]) => {
+                dadosLivros      = livros;
+                dadosEmprestimos = emprestimos;
+                dadosUsuarios    = usuarios;
+
+                document.getElementById('totalLivrosRel').textContent        = stats.total_livros;
+                document.getElementById('totalUsuariosRel').textContent      = stats.total_usuarios;
+                document.getElementById('totalEmprestimosRel').textContent   = stats.total_emprestimos;
+                document.getElementById('totalIndisponiveisRel').textContent = stats.total_indisponiveis;
+            })
+            .catch(err => {
+                document.getElementById('areaRelatorio').innerHTML =
+                    `<p style="color:#c62828;">Erro ao carregar dados: ${err.message}</p>`;
+            });
+        }
+
+        /**
+         * Gera e baixa um arquivo CSV com todos os livros do acervo.
+         */
+        function exportarCSV() {
+            if (dadosLivros.length === 0) {
+                alert('Nenhum dado carregado. Aguarde ou recarregue a página.');
+                return;
+            }
+            let csv = 'ID,Título,Autor,ISBN,Gênero,Exemplares,Disponíveis\n';
+            dadosLivros.forEach(l => {
+                csv += `${l.id},"${l.titulo}","${l.autor}","${l.isbn || ''}","${l.genero || ''}",${l.exemplares},${l.disponiveis}\n`;
+            });
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href     = URL.createObjectURL(blob);
+            link.download = `relatorio_acervo_${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            document.getElementById('areaRelatorio').innerHTML =
+                '<p>✅ Arquivo CSV gerado e baixado com sucesso!</p>';
+        }
+
+        /**
+         * Exibe a lista de empréstimos ativos em atraso com o número de dias.
+         */
+        function relatorioPendencias() {
+            const hoje     = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            const atrasados = dadosEmprestimos.filter(e =>
+                e.status === 'ativo' &&
+                new Date(e.data_devolucao_prevista + 'T00:00:00') < hoje
+            );
+
+            if (atrasados.length === 0) {
+                document.getElementById('areaRelatorio').innerHTML =
+                    '<p>✅ Nenhuma pendência de atraso no momento.</p>';
+                return;
+            }
+
+            let html = `<h3>⚠️ Empréstimos em Atraso (${atrasados.length})</h3><ul>`;
+            atrasados.forEach(e => {
+                const dias  = Math.ceil((hoje - new Date(e.data_devolucao_prevista + 'T00:00:00')) / 86400000);
+                const multa = (dias * 2).toFixed(2);
+                html += `<li>
+                    <strong>${e.nome_usuario}</strong> — ${e.titulo_livro}
+                    <br><small>Previsão: ${e.data_devolucao_prevista} |
+                    Atraso: ${dias} dia(s) | Multa estimada: R$ ${multa}</small>
+                </li>`;
+            });
+            html += '</ul>';
+            document.getElementById('areaRelatorio').innerHTML = html;
+        }
+
+        /**
+         * Exibe um resumo geral do acervo: totais e distribuição por gênero.
+         */
+        function relatorioGeral() {
+            const generos = {};
+            dadosLivros.forEach(l => {
+                const g = l.genero || 'Sem categoria';
+                generos[g] = (generos[g] || 0) + 1;
+            });
+
+            let htmlGeneros = Object.entries(generos)
+                .map(([g, qtd]) => `<li>${g}: <strong>${qtd}</strong> livro(s)</li>`)
+                .join('');
+
+            const finalizados = dadosEmprestimos.filter(e => e.status === 'finalizado').length;
+
+            let html = `
+                <h3>📋 Relatório Geral</h3>
+                <ul>
+                    <li>Total de livros no acervo: <strong>${dadosLivros.length}</strong></li>
+                    <li>Usuários cadastrados: <strong>${dadosUsuarios.length}</strong>
+                        (${dadosUsuarios.filter(u => u.ativo).length} ativos)</li>
+                    <li>Empréstimos ativos: <strong>${dadosEmprestimos.filter(e => e.status === 'ativo').length}</strong></li>
+                    <li>Devoluções realizadas: <strong>${finalizados}</strong></li>
+                </ul>
+                <h4>Distribuição por Gênero</h4>
+                <ul>${htmlGeneros || '<li>Nenhum gênero cadastrado.</li>'}</ul>
+            `;
+            document.getElementById('areaRelatorio').innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            verificarAutenticacao();
+            exibirUsuarioNoMenu();
+            carregarDados();
+        });
+    </script>
+</body>
+</html>
