@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar - AcervoTech</title>
+    <link rel="stylesheet" href="/css/estilo.css">
+    <style>
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .container h1 { text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn:hover { background: #218838; }
+        .mensagem {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .mensagem.sucesso { color: green; }
+        .mensagem.erro { color: red; }
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Cadastrar Administrador</h1>
+        <form id="formRegister">
+            <div class="form-group">
+                <input type="text" id="nome" placeholder="Nome completo" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="E-mail" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="senha" placeholder="Senha" required>
+            </div>
+            <button type="submit" class="btn">Cadastrar</button>
+        </form>
+        <div id="mensagem" class="mensagem"></div>
+        <a href="/" class="voltar">Voltar ao login</a>
+    </div>
+
+    <script>
+        document.getElementById('formRegister').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.className = 'mensagem';
+            mensagemDiv.innerText = '';
+
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+
+            if (!nome || !email || !senha) {
+                mensagemDiv.innerText = 'Preencha todos os campos.';
+                mensagemDiv.className = 'mensagem erro';
+                return;
+            }
+
+            try {
+                const resposta = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, email, senha })
+                });
+
+                const dados = await resposta.json();
+
+                if (resposta.ok) {
+                    mensagemDiv.innerText = '✅ Administrador cadastrado com sucesso! Faça login.';
+                    mensagemDiv.className = 'mensagem sucesso';
+                    document.getElementById('formRegister').reset();
+                } else {
+                    mensagemDiv.innerText = dados.detail || 'Erro ao cadastrar.';
+                    mensagemDiv.className = 'mensagem erro';
+                }
+            } catch (erro) {
+                console.error(erro);
+                mensagemDiv.innerText = 'Erro ao conectar com o servidor.';
+                mensagemDiv.className = 'mensagem erro';
+            }
+        });
+    </script>
+</body>
+</html>
