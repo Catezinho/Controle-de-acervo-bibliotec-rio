@@ -3,40 +3,497 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livros — Acervo Tech Digital</title>
-    <link rel="stylesheet" href="../css/estilo.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <title>Livros - AcervoTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 40px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .topbar .logo {
+            font-size: 26px; font-weight: 700; color:#fff;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .topbar .logo i { color: #7c6dd6; font-size:30px; }
+        .topbar .logo span { color: #7c6dd6; }
+        .topbar .user-area {
+            display: flex; align-items: center; gap: 20px;
+            flex-wrap: wrap;
+        }
+        .topbar .user-area .user-name {
+            font-weight: 400; font-size: 16px; color: #ddd;
+        }
+        .topbar .user-area .user-name i { margin-right: 8px; color: #7c6dd6; }
+        .btn-logout {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; padding: 8px 18px; border-radius: 30px;
+            font-weight: 500; cursor: pointer; transition: all 0.3s;
+            font-size: 14px;
+        }
+        .btn-logout:hover { background: #e74c3c; border-color:#e74c3c; transform:scale(1.02); }
+        .menu {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            padding: 15px 40px;
+            background: rgba(0,0,0,0.25);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .menu a {
+            color: #ccc; text-decoration: none;
+            padding: 10px 22px; border-radius: 30px;
+            font-size: 15px; font-weight: 500;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+        }
+        .menu a i { font-size: 16px; }
+        .menu a:hover { background: rgba(255,255,255,0.08); color:#fff; }
+        .menu a.ativo {
+            background: rgba(124,109,214,0.25);
+            color: #fff;
+            border-color: rgba(124,109,214,0.4);
+            box-shadow: 0 0 20px rgba(124,109,214,0.15);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 30px 40px;
+        }
+        .container h2 {
+            font-weight: 300; font-size: 28px; color:#fff; margin-bottom: 10px;
+        }
+        .container .subtitle {
+            color: #aaa; font-weight: 300; margin-bottom: 30px;
+        }
+
+        .form-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(6px);
+            border-radius: 24px;
+            padding: 28px 25px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 30px;
+        }
+        .form-card h3 {
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .form-grid input {
+            padding: 14px 18px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-grid input::placeholder { color: #aaa; }
+        .form-grid input:focus {
+            border-color: #7c6dd6;
+            background: rgba(255,255,255,0.08);
+        }
+        /* ============================================= */
+        /* CORREÇÃO: appearance com prefixos            */
+        /* ============================================= */
+        .form-grid input[type="number"] {
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        .form-grid input[type="number"]::-webkit-inner-spin-button,
+        .form-grid input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4a3f8a, #7c6dd6);
+            border: none;
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(74,63,138,0.4);
+        }
+
+        .busca-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 40px;
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .busca-bar input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .busca-bar input::placeholder { color: #aaa; }
+        .busca-bar input:focus {
+            border-color: #7c6dd6;
+            background: rgba(255,255,255,0.08);
+        }
+        .busca-bar .btn-buscar {
+            background: linear-gradient(135deg, #4a3f8a, #7c6dd6);
+            border: none;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .busca-bar .btn-buscar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74,63,138,0.4);
+        }
+        .busca-bar .btn-limpar {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .busca-bar .btn-limpar:hover {
+            background: rgba(255,71,87,0.2);
+            border-color: #ff4757;
+        }
+
+        .export-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .btn-export {
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            border: none;
+            color: #fff;
+        }
+        .btn-export-pdf {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        .btn-export-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+        .btn-export-excel {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+        }
+        .btn-export-excel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+        }
+        .btn-import {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        .btn-import:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        .table-wrapper {
+            background: rgba(255,255,255,0.04);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            overflow-x: auto;
+        }
+        .table-wrapper h3 {
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        th {
+            font-weight: 600;
+            color: #bbb;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            color: #eee;
+            font-weight: 300;
+        }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+        .badge-disponivel {
+            background: rgba(46,213,115,0.2);
+            color: #2ed573;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .badge-indisponivel {
+            background: rgba(255,71,87,0.2);
+            color: #ff4757;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .mensagem {
+            padding: 12px 18px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .mensagem.sucesso {
+            background: rgba(46,213,115,0.15);
+            color: #2ed573;
+            display: block;
+        }
+        .mensagem.erro {
+            background: rgba(255,71,87,0.15);
+            color: #ff4757;
+            display: block;
+        }
+
+        .btn-qrcode {
+            background: transparent;
+            border: none;
+            color: #7c6dd6;
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 4px 8px;
+            border-radius: 30px;
+        }
+        .btn-qrcode:hover {
+            background: rgba(124,109,214,0.2);
+            transform: scale(1.1);
+        }
+
+        /* ============================================= */
+        /* MODAL DE IMPORTAÇÃO                          */
+        /* ============================================= */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.ativo {
+            display: flex;
+        }
+        .modal-content {
+            background: #1e1e2f;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .modal-content .fechar {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: none;
+            border: none;
+        }
+        .modal-content .fechar:hover {
+            color: #fff;
+            transform: rotate(90deg);
+        }
+        .modal-content h2 {
+            font-weight: 300;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .modal-content .sub {
+            color: #aaa;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+        .modal-content input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            color: #fff;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .modal-content input[type="file"]::-webkit-file-upload-button {
+            background: #4a3f8a;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .modal-content .btn-upload {
+            width: 100%;
+        }
+        .modal-content .dicas {
+            color: #aaa;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        .modal-content .dicas code {
+            background: rgba(255,255,255,0.05);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .topbar, .menu { padding: 12px 20px; }
+            .topbar .logo { font-size: 22px; }
+            .menu a { padding: 8px 16px; font-size: 13px; }
+            .container { padding: 0 20px 30px; }
+            .busca-bar { flex-direction: column; align-items: stretch; }
+            .export-bar { justify-content: center; }
+            .modal-content { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <script>
+        const usuario = localStorage.getItem('usuario');
+        if (!usuario) window.location.href = '/';
+        const dadosUsuario = JSON.parse(usuario);
+    </script>
+    <header class="topbar">
+        <div class="logo"><i class="fas fa-book-open"></i> Acervo<span>Tech</span></div>
+        <div class="user-area">
+            <span class="user-name"><i class="fas fa-user-circle"></i> <span id="nome-usuario"></span></span>
+            <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </div>
+    </header>
+    <nav class="menu">
+        <a href="/pages/dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <a href="/pages/livros.html" class="ativo"><i class="fas fa-book"></i> Livros</a>
+        <a href="/pages/usuarios.html"><i class="fas fa-users"></i> Usuários</a>
+        <a href="/pages/emprestimos.html"><i class="fas fa-hand-holding"></i> Empréstimos</a>
+        <a href="/pages/devolucoes.html"><i class="fas fa-undo-alt"></i> Devoluções</a>
+        <a href="/pages/reservas.html"><i class="fas fa-clock"></i> Reservas</a>
+    </nav>
     <div class="container">
-        <nav>
-            <div class="logo">📚 AcervoTech</div>
-            <div class="menu">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="livros.html" class="ativo">Livros</a>
-                <a href="usuarios.html">Usuários</a>
-                <a href="emprestimos.html">Empréstimos</a>
-                <a href="devolucoes.html">Devoluções</a>
-                <a href="consultar.html">Consultar</a>
-                <a href="relatorios.html">Relatórios</a>
-            </div>
-            <div class="usuario">
-                <span id="nomeUsuario"></span>
-                <button onclick="logout()"
-                    style="background:#d32f2f; color:white; border:none;
-                           padding:5px 10px; border-radius:4px; cursor:pointer;">
-                    Sair
-                </button>
-            </div>
-        </nav>
-
-        <h2>Gerenciar Livros</h2>
-        <button onclick="abrirFormLivro()" class="btn-primary"
-                style="width:auto; margin-bottom:16px;">
-            + Novo Livro
-        </button>
-
-        <div class="tabela-wrapper">
+        <h2>📚 Gerenciar Livros</h2>
+        <p class="subtitle">Cadastre novos livros e acompanhe o acervo disponível.</p>
+        <div id="mensagem" class="mensagem"></div>
+        <div class="busca-bar">
+            <input type="text" id="campoBusca" placeholder="🔍 Buscar por título, autor ou ISBN...">
+            <button id="btnBuscar" class="btn-buscar"><i class="fas fa-search"></i> Buscar</button>
+            <button id="btnLimpar" class="btn-limpar"><i class="fas fa-times"></i> Limpar</button>
+        </div>
+        <div class="export-bar">
+            <button class="btn-export btn-export-pdf" onclick="exportarPDF()">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </button>
+            <button class="btn-export btn-export-excel" onclick="exportarExcel()">
+                <i class="fas fa-file-excel"></i> Exportar Excel
+            </button>
+            <button class="btn-export btn-import" onclick="abrirModalImportacao()">
+                <i class="fas fa-upload"></i> Importar Livros
+            </button>
+        </div>
+        <div class="form-card">
+            <h3><i class="fas fa-plus-circle"></i> Cadastrar Novo Livro</h3>
+            <form id="formLivro">
+                <div class="form-grid">
+                    <input type="text" id="titulo" placeholder="Título *" required>
+                    <input type="text" id="autor" placeholder="Autor *" required>
+                    <input type="text" id="isbn" placeholder="ISBN (opcional)">
+                    <input type="text" id="genero" placeholder="Gênero (opcional)">
+                    <input type="number" id="exemplares" placeholder="Exemplares" value="1" min="1">
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-save"></i> Cadastrar Livro</button>
+            </form>
+        </div>
+        <div class="table-wrapper">
+            <h3><i class="fas fa-list"></i> Lista de Livros</h3>
             <table>
                 <thead>
                     <tr>
@@ -47,65 +504,234 @@
                         <th>Gênero</th>
                         <th>Exemplares</th>
                         <th>Disponíveis</th>
-                        <th>Ações</th>
+                        <th>QR Code</th>
                     </tr>
                 </thead>
-                <tbody id="tabelaLivrosBody"></tbody>
+                <tbody id="corpoTabela">
+                    <tr><td colspan="8" style="text-align:center;">Carregando livros...</td></tr>
+                </tbody>
             </table>
         </div>
+    </div>
 
-        <!-- Formulário de Cadastro / Edição de Livro -->
-        <div id="formLivroContainer" style="display:none; margin-top:20px;">
-            <div class="form-padrao">
-                <h3 id="formLivroTitulo">Cadastrar Livro</h3>
-                <form id="formLivro">
-                    <!-- Campo oculto: preenchido apenas em modo de edição -->
-                    <input type="hidden" id="livroId">
-
-                    <div class="campo">
-                        <label for="titulo">Título *</label>
-                        <input type="text" id="titulo" required>
-                    </div>
-                    <div class="campo">
-                        <label for="autor">Autor *</label>
-                        <input type="text" id="autor" required>
-                    </div>
-                    <div class="campo">
-                        <label for="isbn">ISBN</label>
-                        <!-- CORREÇÃO: Campo ISBN adicionado para alinhar com o modelo do back-end -->
-                        <input type="text" id="isbn" placeholder="Ex: 978-85-01-00001-0">
-                    </div>
-                    <div class="campo">
-                        <label for="genero">Gênero / Categoria</label>
-                        <!--
-                            CORREÇÃO: O HTML original usava id="categoria" mas o JS mapeava
-                            esse valor para o campo 'genero' ao enviar para a API.
-                            O id foi padronizado para 'genero' em ambos os arquivos.
-                        -->
-                        <input type="text" id="genero" placeholder="Ex: Literatura, Técnico, Fantasia">
-                    </div>
-                    <div class="campo">
-                        <label for="exemplares">Nº de Exemplares *</label>
-                        <input type="number" id="exemplares" min="1" value="1" required>
-                    </div>
-
-                    <button type="submit">Salvar</button>
-                    <button type="button" onclick="fecharFormLivro()"
-                            style="background:#999; margin-top:10px; color:white;
-                                   border:none; padding:10px; border-radius:4px; cursor:pointer;">
-                        Cancelar
-                    </button>
-                </form>
+    <!-- ============================================= -->
+    <!-- MODAL DE IMPORTAÇÃO                          -->
+    <!-- ============================================= -->
+    <div id="modalImportacao" class="modal">
+        <div class="modal-content">
+            <button class="fechar" onclick="fecharModalImportacao()">&times;</button>
+            <h2>📤 Importar Livros em Lote</h2>
+            <p class="sub">Envie um arquivo CSV ou Excel com os dados dos livros.</p>
+            <form id="formImportacao">
+                <input type="file" id="arquivoImportacao" accept=".csv,.xlsx,.xls" required>
+                <button type="submit" class="btn btn-upload"><i class="fas fa-upload"></i> Enviar e Importar</button>
+            </form>
+            <div id="mensagemImportacao" style="margin-top:15px;font-size:14px;"></div>
+            <div class="dicas">
+                <p><strong>Colunas esperadas:</strong></p>
+                <p><code>titulo</code> (obrigatório), <code>autor</code> (obrigatório), <code>isbn</code> (opcional), <code>genero</code> (opcional), <code>exemplares</code> (opcional, padrão 1)</p>
+                <p style="margin-top:6px;">📌 <a href="/api/relatorios/livros/excel" target="_blank" style="color:#7c6dd6;">Baixar modelo Excel</a></p>
             </div>
         </div>
     </div>
 
-    <!--
-        ATENÇÃO À ORDEM DOS SCRIPTS:
-        auth.js deve ser carregado PRIMEIRO, pois define verificarAutenticacao(),
-        exibirUsuarioNoMenu() e logout(), que são chamados por livros.js.
-    -->
-    <script src="../js/auth.js"></script>
-    <script src="../js/livros.js"></script>
+    <script>
+        document.getElementById('nome-usuario').textContent = dadosUsuario.nome;
+        function logout() {
+            localStorage.removeItem('usuario');
+            window.location.href = '/';
+        }
+
+        const form = document.getElementById('formLivro');
+        const mensagemDiv = document.getElementById('mensagem');
+        const corpoTabela = document.getElementById('corpoTabela');
+        const campoBusca = document.getElementById('campoBusca');
+        const btnBuscar = document.getElementById('btnBuscar');
+        const btnLimpar = document.getElementById('btnLimpar');
+
+        const modalImportacao = document.getElementById('modalImportacao');
+        const formImportacao = document.getElementById('formImportacao');
+        const arquivoInput = document.getElementById('arquivoImportacao');
+        const mensagemImportacao = document.getElementById('mensagemImportacao');
+
+        function exibirMensagem(texto, tipo) {
+            mensagemDiv.textContent = texto;
+            mensagemDiv.className = 'mensagem ' + tipo;
+            setTimeout(() => { mensagemDiv.className = 'mensagem'; }, 8000);
+        }
+
+        function exportarPDF() {
+            window.open('/api/relatorios/livros/pdf', '_blank');
+        }
+
+        function exportarExcel() {
+            window.open('/api/relatorios/livros/excel', '_blank');
+        }
+
+        function abrirModalImportacao() {
+            modalImportacao.classList.add('ativo');
+            mensagemImportacao.innerHTML = '';
+            arquivoInput.value = '';
+            formImportacao.reset();
+        }
+
+        function fecharModalImportacao() {
+            modalImportacao.classList.remove('ativo');
+        }
+
+        modalImportacao.addEventListener('click', function(event) {
+            if (event.target === modalImportacao) {
+                fecharModalImportacao();
+            }
+        });
+
+        formImportacao.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const arquivo = arquivoInput.files[0];
+            if (!arquivo) {
+                mensagemImportacao.innerHTML = '<span style="color:#ff4757;">❌ Selecione um arquivo.</span>';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('arquivo', arquivo);
+
+            mensagemImportacao.innerHTML = '<span style="color:#f9d423;">⏳ Enviando e processando...</span>';
+
+            try {
+                const resposta = await fetch('/api/livros/importar', {
+                    method: 'POST',
+                    body: formData
+                });
+                const dados = await resposta.json();
+
+                if (resposta.ok) {
+                    let msg = `✅ ${dados.message}`;
+                    if (dados.erros && dados.erros.length > 0) {
+                        msg += `<br><span style="color:#ffa502;">⚠️ ${dados.erros.length} erro(s): ${dados.erros.join('; ')}</span>`;
+                    }
+                    mensagemImportacao.innerHTML = msg;
+                    fecharModalImportacao();
+                    carregarLivros(campoBusca.value);
+                    exibirMensagem(`✅ ${dados.sucessos} livros importados com sucesso!`, 'sucesso');
+                } else {
+                    mensagemImportacao.innerHTML = `<span style="color:#ff4757;">❌ ${dados.detail || 'Erro ao importar.'}</span>`;
+                }
+            } catch (erro) {
+                console.error(erro);
+                mensagemImportacao.innerHTML = '<span style="color:#ff4757;">❌ Erro ao conectar com o servidor.</span>';
+            }
+        });
+
+        // =============================================
+        // LISTAR LIVROS
+        // =============================================
+        async function carregarLivros(termo = '') {
+            try {
+                let url = '/api/livros';
+                if (termo.trim() !== '') {
+                    url += `?q=${encodeURIComponent(termo.trim())}`;
+                }
+                const resposta = await fetch(url);
+                if (!resposta.ok) throw new Error('Erro ao buscar livros');
+                const livros = await resposta.json();
+
+                if (livros.length === 0) {
+                    corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum livro encontrado.</td></tr>`;
+                    return;
+                }
+
+                let html = '';
+                livros.forEach(livro => {
+                    const statusDisponivel = livro.disponiveis > 0 ? 'badge-disponivel' : 'badge-indisponivel';
+                    const statusTexto = livro.disponiveis > 0 ? 'Disponível' : 'Indisponível';
+                    html += `
+                        <tr>
+                            <td>${livro.id}</td>
+                            <td><strong>${livro.titulo}</strong></td>
+                            <td>${livro.autor}</td>
+                            <td>${livro.isbn || '-'}</td>
+                            <td>${livro.genero || '-'}</td>
+                            <td>${livro.exemplares}</td>
+                            <td><span class="${statusDisponivel}">${livro.disponiveis} ${statusTexto}</span></td>
+                            <td>
+                                <button class="btn-qrcode" onclick="gerarQRCode(${livro.id}, 'livro')">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                corpoTabela.innerHTML = html;
+
+            } catch (erro) {
+                console.error(erro);
+                corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center; color: #ff4757;">Erro ao carregar livros.</td></tr>`;
+            }
+        }
+
+        function gerarQRCode(id, tipo) {
+            const url = `/api/qrcode/${tipo}/${id}`;
+            window.open(url, '_blank');
+        }
+
+        // =============================================
+        // CADASTRAR LIVRO
+        // =============================================
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const titulo = document.getElementById('titulo').value.trim();
+            const autor = document.getElementById('autor').value.trim();
+            const isbn = document.getElementById('isbn').value.trim();
+            const genero = document.getElementById('genero').value.trim();
+            const exemplares = parseInt(document.getElementById('exemplares').value) || 1;
+
+            if (!titulo || !autor) {
+                exibirMensagem('Título e Autor são obrigatórios.', 'erro');
+                return;
+            }
+
+            const dados = { titulo, autor, isbn: isbn || null, genero: genero || null, exemplares };
+            try {
+                const resposta = await fetch('/api/livros', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                const resultado = await resposta.json();
+                if (resposta.ok) {
+                    exibirMensagem(`✅ Livro "${titulo}" cadastrado com sucesso!`, 'sucesso');
+                    form.reset();
+                    document.getElementById('exemplares').value = 1;
+                    carregarLivros(campoBusca.value);
+                } else {
+                    exibirMensagem(`❌ ${resultado.detail || 'Falha ao cadastrar.'}`, 'erro');
+                }
+            } catch (erro) {
+                console.error(erro);
+                exibirMensagem('❌ Erro ao conectar com o servidor.', 'erro');
+            }
+        });
+
+        // =============================================
+        // EVENTOS DA BUSCA
+        // =============================================
+        btnBuscar.addEventListener('click', () => carregarLivros(campoBusca.value));
+        btnLimpar.addEventListener('click', () => {
+            campoBusca.value = '';
+            carregarLivros('');
+        });
+        campoBusca.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                carregarLivros(campoBusca.value);
+            }
+        });
+
+        // =============================================
+        // INICIALIZAR
+        // =============================================
+        carregarLivros('');
+    </script>
 </body>
 </html>

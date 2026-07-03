@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empréstimos - AcervoTech</title>
+    <title>Reservas - AcervoTech</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -47,7 +47,6 @@
             font-size: 14px;
         }
         .btn-logout:hover { background: #e74c3c; border-color:#e74c3c; transform:scale(1.02); }
-
         .menu {
             display: flex; flex-wrap: wrap; gap: 6px;
             padding: 15px 40px;
@@ -71,7 +70,6 @@
             border-color: rgba(124,109,214,0.4);
             box-shadow: 0 0 20px rgba(124,109,214,0.15);
         }
-
         .container {
             max-width: 1200px;
             margin: 30px auto;
@@ -83,7 +81,6 @@
         .container .subtitle {
             color: #aaa; font-weight: 300; margin-bottom: 30px;
         }
-
         .form-card {
             background: rgba(255,255,255,0.06);
             backdrop-filter: blur(6px);
@@ -121,8 +118,6 @@
             border-color: #7c6dd6;
             background: rgba(255,255,255,0.08);
         }
-        .form-grid input::placeholder { color: #aaa; }
-
         .btn {
             background: linear-gradient(135deg, #4a3f8a, #7c6dd6);
             border: none;
@@ -141,41 +136,12 @@
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(74,63,138,0.4);
         }
-        .btn i { font-size: 18px; }
-
-        .filtro-bar {
-            display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
-            margin-bottom: 25px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 40px;
-            padding: 14px 24px;
-            border: 1px solid rgba(255,255,255,0.06);
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
         }
-        .filtro-bar select, .filtro-bar button {
-            padding: 10px 20px;
-            border-radius: 30px;
-            border: 2px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
+        .btn-danger:hover {
+            box-shadow: 0 8px 20px rgba(231,76,60,0.4);
         }
-        .filtro-bar select:focus { border-color: #7c6dd6; }
-        .filtro-bar select option { background: #302b63; color:#fff; }
-        .btn-filtrar {
-            background: linear-gradient(135deg, #4a3f8a, #7c6dd6);
-            border: none;
-            color: #fff;
-            padding: 10px 28px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-filtrar:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74,63,138,0.4); }
-
         .table-wrapper {
             background: rgba(255,255,255,0.04);
             border-radius: 24px;
@@ -208,7 +174,7 @@
             font-weight: 300;
         }
         tr:hover td { background: rgba(255,255,255,0.03); }
-        .badge-ativo {
+        .badge-ativa {
             background: rgba(46,213,115,0.2);
             color: #2ed573;
             padding: 4px 14px;
@@ -217,7 +183,16 @@
             font-weight: 500;
             display: inline-block;
         }
-        .badge-finalizado {
+        .badge-cancelada {
+            background: rgba(255,71,87,0.2);
+            color: #ff4757;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .badge-concluida {
             background: rgba(255,165,0,0.2);
             color: #ffa502;
             padding: 4px 14px;
@@ -226,7 +201,6 @@
             font-weight: 500;
             display: inline-block;
         }
-
         .mensagem {
             padding: 12px 18px;
             border-radius: 30px;
@@ -243,7 +217,41 @@
             color: #ff4757;
             display: block;
         }
-
+        .filtro-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 40px;
+            padding: 14px 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .filtro-bar select, .filtro-bar button {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .filtro-bar select:focus { border-color: #7c6dd6; }
+        .filtro-bar select option { background: #302b63; color:#fff; }
+        .btn-filtrar {
+            background: linear-gradient(135deg, #4a3f8a, #7c6dd6);
+            border: none;
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-filtrar:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74,63,138,0.4); }
         @media (max-width: 768px) {
             .topbar, .menu { padding: 12px 20px; }
             .topbar .logo { font-size: 22px; }
@@ -257,15 +265,11 @@
     </style>
 </head>
 <body>
-
-    <!-- Verificação de login -->
     <script>
         const usuario = localStorage.getItem('usuario');
         if (!usuario) window.location.href = '/';
         const dadosUsuario = JSON.parse(usuario);
     </script>
-
-    <!-- Topbar -->
     <header class="topbar">
         <div class="logo"><i class="fas fa-book-open"></i> Acervo<span>Tech</span></div>
         <div class="user-area">
@@ -273,27 +277,21 @@
             <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </div>
     </header>
-
-    <!-- Menu -->
     <nav class="menu">
         <a href="/pages/dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
         <a href="/pages/livros.html"><i class="fas fa-book"></i> Livros</a>
         <a href="/pages/usuarios.html"><i class="fas fa-users"></i> Usuários</a>
-        <a href="/pages/emprestimos.html" class="ativo"><i class="fas fa-hand-holding"></i> Empréstimos</a>
+        <a href="/pages/emprestimos.html"><i class="fas fa-hand-holding"></i> Empréstimos</a>
         <a href="/pages/devolucoes.html"><i class="fas fa-undo-alt"></i> Devoluções</a>
+        <a href="/pages/reservas.html" class="ativo"><i class="fas fa-clock"></i> Reservas</a>
     </nav>
-
-    <!-- Conteúdo -->
     <div class="container">
-        <h2>📋 Registrar Empréstimo</h2>
-        <p class="subtitle">Registre novos empréstimos e acompanhe os ativos.</p>
-
+        <h2>📝 Gerenciar Reservas</h2>
+        <p class="subtitle">Gerencie as reservas de livros e a fila de espera.</p>
         <div id="mensagem" class="mensagem"></div>
-
-        <!-- Formulário de cadastro -->
         <div class="form-card">
-            <h3><i class="fas fa-plus-circle"></i> Novo Empréstimo</h3>
-            <form id="formEmprestimo">
+            <h3><i class="fas fa-plus-circle"></i> Nova Reserva</h3>
+            <form id="formReserva">
                 <div class="form-grid">
                     <select id="id_livro" required>
                         <option value="">Selecione o Livro...</option>
@@ -301,59 +299,50 @@
                     <select id="id_usuario" required>
                         <option value="">Selecione o Usuário...</option>
                     </select>
-                    <input type="date" id="data_devolucao_prevista" required>
                 </div>
-                <button type="submit" class="btn"><i class="fas fa-save"></i> Registrar Empréstimo</button>
+                <button type="submit" class="btn"><i class="fas fa-save"></i> Criar Reserva</button>
             </form>
         </div>
-
-        <!-- Filtro -->
         <div class="filtro-bar">
             <i class="fas fa-filter"></i>
             <select id="filtroStatus">
                 <option value="">Todos</option>
-                <option value="ativo">Ativos</option>
-                <option value="finalizado">Finalizados</option>
+                <option value="ativa">Ativas</option>
+                <option value="cancelada">Canceladas</option>
+                <option value="concluida">Concluídas</option>
             </select>
             <button id="btnFiltrar" class="btn-filtrar"><i class="fas fa-sync-alt"></i> Filtrar</button>
         </div>
-
-        <!-- Lista de empréstimos -->
         <div class="table-wrapper">
-            <h3><i class="fas fa-list"></i> Lista de Empréstimos</h3>
+            <h3><i class="fas fa-list"></i> Lista de Reservas</h3>
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Livro</th>
                         <th>Usuário</th>
-                        <th>Data Empr.</th>
-                        <th>Devolução Prevista</th>
+                        <th>Data Reserva</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="corpoTabela">
-                    <tr><td colspan="6" style="text-align:center;">Carregando...</td></tr>
+                    <tr><td colspan="6" style="text-align:center;">Carregando reservas...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-
     <script>
-        // Nome do usuário
         document.getElementById('nome-usuario').textContent = dadosUsuario.nome;
-
         function logout() {
             localStorage.removeItem('usuario');
             window.location.href = '/';
         }
-
+        const form = document.getElementById('formReserva');
         const mensagemDiv = document.getElementById('mensagem');
         const corpoTabela = document.getElementById('corpoTabela');
-        const form = document.getElementById('formEmprestimo');
         const selectLivro = document.getElementById('id_livro');
         const selectUsuario = document.getElementById('id_usuario');
-        const dataPrevista = document.getElementById('data_devolucao_prevista');
         const filtroStatus = document.getElementById('filtroStatus');
         const btnFiltrar = document.getElementById('btnFiltrar');
 
@@ -363,37 +352,37 @@
             setTimeout(() => { mensagemDiv.className = 'mensagem'; }, 5000);
         }
 
-        // =============================================
-        // CARREGAR LIVROS PARA O SELECT
-        // =============================================
-        async function carregarLivrosSelect() {
+        // Carregar livros indisponíveis para reserva (disponiveis = 0 e ativos)
+        async function carregarLivrosReserva() {
             try {
                 const resposta = await fetch('/api/livros');
                 if (!resposta.ok) throw new Error('Erro ao buscar livros');
                 const livros = await resposta.json();
-                // Limpa options exceto a primeira
+                const indisponiveis = livros.filter(l => l.disponiveis === 0);
                 selectLivro.innerHTML = '<option value="">Selecione o Livro...</option>';
-                livros.forEach(livro => {
+                indisponiveis.forEach(l => {
                     const option = document.createElement('option');
-                    option.value = livro.id;
-                    option.textContent = `${livro.titulo} (${livro.disponiveis} disponíveis)`;
-                    option.disabled = livro.disponiveis <= 0;
+                    option.value = l.id;
+                    option.textContent = `${l.titulo} (${l.autor})`;
                     selectLivro.appendChild(option);
                 });
+                if (indisponiveis.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.value = '';
+                    opt.textContent = 'Nenhum livro indisponível no momento';
+                    opt.disabled = true;
+                    selectLivro.appendChild(opt);
+                }
             } catch (erro) {
                 console.error(erro);
             }
         }
 
-        // =============================================
-        // CARREGAR USUÁRIOS PARA O SELECT
-        // =============================================
-        async function carregarUsuariosSelect() {
+        async function carregarUsuariosAtivos() {
             try {
                 const resposta = await fetch('/api/usuarios');
                 if (!resposta.ok) throw new Error('Erro ao buscar usuários');
                 const usuarios = await resposta.json();
-                // Filtra apenas ativos
                 const ativos = usuarios.filter(u => u.ativo === true);
                 selectUsuario.innerHTML = '<option value="">Selecione o Usuário...</option>';
                 ativos.forEach(u => {
@@ -407,78 +396,83 @@
             }
         }
 
-        // =============================================
-        // CARREGAR EMPRÉSTIMOS COM FILTRO
-        // =============================================
-        async function carregarEmprestimos(status = '') {
+        async function carregarReservas(status = '') {
             try {
-                let url = '/api/emprestimos';
-                if (status) url += `?status_filtro=${status}`;
-
+                let url = '/api/reservas';
+                if (status) url += `?status=${status}`;
                 const resposta = await fetch(url);
-                if (!resposta.ok) throw new Error('Erro ao buscar empréstimos');
-                const emprestimos = await resposta.json();
-
-                if (emprestimos.length === 0) {
-                    corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align:center;">Nenhum empréstimo encontrado.</td></tr>`;
+                if (!resposta.ok) throw new Error('Erro ao buscar reservas');
+                const reservas = await resposta.json();
+                if (reservas.length === 0) {
+                    corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align:center;">Nenhuma reserva encontrada.</td></tr>`;
                     return;
                 }
-
                 let html = '';
-                emprestimos.forEach(e => {
-                    const statusClass = e.status === 'ativo' ? 'badge-ativo' : 'badge-finalizado';
-                    const statusText = e.status === 'ativo' ? 'Ativo' : 'Finalizado';
+                reservas.forEach(r => {
+                    let badgeClass = 'badge-ativa';
+                    let statusText = 'Ativa';
+                    if (r.status === 'cancelada') { badgeClass = 'badge-cancelada'; statusText = 'Cancelada'; }
+                    if (r.status === 'concluida') { badgeClass = 'badge-concluida'; statusText = 'Concluída'; }
                     html += `
                         <tr>
-                            <td>${e.id}</td>
-                            <td><strong>${e.titulo_livro}</strong></td>
-                            <td>${e.nome_usuario}</td>
-                            <td>${new Date(e.data_emprestimo).toLocaleDateString('pt-BR')}</td>
-                            <td>${new Date(e.data_devolucao_prevista).toLocaleDateString('pt-BR')}</td>
-                            <td><span class="${statusClass}">${statusText}</span></td>
+                            <td>${r.id}</td>
+                            <td><strong>${r.titulo_livro}</strong></td>
+                            <td>${r.nome_usuario}</td>
+                            <td>${new Date(r.data_reserva).toLocaleDateString('pt-BR')}</td>
+                            <td><span class="${badgeClass}">${statusText}</span></td>
+                            <td>
+                                ${r.status === 'ativa' ? `<button class="btn btn-danger" onclick="cancelarReserva(${r.id})" style="padding:6px 14px;font-size:13px;"><i class="fas fa-times"></i> Cancelar</button>` : '—'}
+                            </td>
                         </tr>
                     `;
                 });
                 corpoTabela.innerHTML = html;
-
             } catch (erro) {
                 console.error(erro);
-                corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #ff4757;">Erro ao carregar.</td></tr>`;
+                corpoTabela.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #ff4757;">Erro ao carregar reservas.</td></tr>`;
             }
         }
 
-        // =============================================
-        // REGISTRAR EMPRÉSTIMO
-        // =============================================
+        async function cancelarReserva(reservaId) {
+            if (!confirm('Tem certeza que deseja cancelar esta reserva?')) return;
+            try {
+                const resposta = await fetch(`/api/reservas/${reservaId}`, { method: 'DELETE' });
+                const dados = await resposta.json();
+                if (resposta.ok) {
+                    exibirMensagem('✅ Reserva cancelada com sucesso!', 'sucesso');
+                    carregarReservas(filtroStatus.value);
+                } else {
+                    exibirMensagem(`❌ ${dados.detail || 'Erro ao cancelar.'}`, 'erro');
+                }
+            } catch (erro) {
+                console.error(erro);
+                exibirMensagem('❌ Erro ao conectar com o servidor.', 'erro');
+            }
+        }
+
         form.addEventListener('submit', async function(event) {
             event.preventDefault();
-
             const id_livro = selectLivro.value;
             const id_usuario = selectUsuario.value;
-            const data_devolucao_prevista = dataPrevista.value;
-
-            if (!id_livro || !id_usuario || !data_devolucao_prevista) {
-                exibirMensagem('Preencha todos os campos.', 'erro');
+            if (!id_livro || !id_usuario) {
+                exibirMensagem('Selecione um livro e um usuário.', 'erro');
                 return;
             }
-
             try {
-                const resposta = await fetch('/api/emprestimos', {
+                const resposta = await fetch('/api/reservas', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id_livro, id_usuario, data_devolucao_prevista })
+                    body: JSON.stringify({ id_livro, id_usuario })
                 });
-                const resultado = await resposta.json();
-
+                const dados = await resposta.json();
                 if (resposta.ok) {
-                    exibirMensagem(`✅ Empréstimo registrado com sucesso!`, 'sucesso');
+                    exibirMensagem('✅ Reserva criada com sucesso!', 'sucesso');
                     form.reset();
-                    // Recarrega selects e lista
-                    carregarLivrosSelect();
-                    carregarUsuariosSelect();
-                    carregarEmprestimos(filtroStatus.value);
+                    carregarLivrosReserva();
+                    carregarUsuariosAtivos();
+                    carregarReservas(filtroStatus.value);
                 } else {
-                    exibirMensagem(`❌ ${resultado.detail || 'Falha ao registrar.'}`, 'erro');
+                    exibirMensagem(`❌ ${dados.detail || 'Falha ao criar reserva.'}`, 'erro');
                 }
             } catch (erro) {
                 console.error(erro);
@@ -486,19 +480,10 @@
             }
         });
 
-        // =============================================
-        // FILTRO
-        // =============================================
-        btnFiltrar.addEventListener('click', () => {
-            carregarEmprestimos(filtroStatus.value);
-        });
-
-        // =============================================
-        // INICIALIZAR
-        // =============================================
-        carregarLivrosSelect();
-        carregarUsuariosSelect();
-        carregarEmprestimos('ativo'); // carrega ativos por padrão
+        btnFiltrar.addEventListener('click', () => carregarReservas(filtroStatus.value));
+        carregarLivrosReserva();
+        carregarUsuariosAtivos();
+        carregarReservas('ativa');
     </script>
 </body>
 </html>
